@@ -32,13 +32,15 @@
         <div class="row">
             <div class="col-md-10 offset-1">
                 <h4 class="header-title">
-                    Looking for Turnips with prices > =
-                    <input class="form-control" style="width: 5%; display: inline;" id="TurnipPrice" value="590"> Bells
+                    Looking for Turnips with prices >=
+                    <input class="form-control" style="width: 8%; display: inline;" id="TurnipPrice" value="590" type="number"> Bells
                 </h4>
                 <h6>
-                    Every
-                    <input class="form-control" style="width: 5%; display: inline;" id="Seconds" value="10" type="number" min="10" max="50" step="10"> seconds
+                    Automatic refresh every
+                    <input class="form-control" style="width: 8%; display: inline;" id="Seconds" value="10" type="number" min="10" max="50" step="10"> seconds
                 </h6>
+                <br />
+                <div class="row"><div class="col-md-2"><button class="btn btn-success" id="Refresh"><img width="10%" src="https://i.ya-webdesign.com/images/animal-crossing-leaf-png-3.png"> Refresh Manual</button></div></div>
                 <br />
                 <div class="data-tables">
                     <table id="dataTable" class="text-center">
@@ -100,6 +102,9 @@
                 }
             });
         }
+        $("#Refresh").click(function () {
+            GetData();
+        });
         $(document).ready(function () {
             GetData();
         });
