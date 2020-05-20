@@ -88,7 +88,7 @@
                         var islands = 0;
                         $.each(pResponse.islands, function (index, element) {
                             if (element.turnipPrice >= $("#TurnipPrice").val() && element.fee == 0 && element.category == "turnips") {
-                                vHtml += "<tr><td><a href='https://turnip.exchange/island/" + element.turnipCode + "' target='_blank'>" + element.name + "</a></td><td><img width='10%' src='https://turnip.exchange/assets/images/fruits/" + element.fruit + ".png'></td><td><img width='8%' src='https://turnip.exchange/img/turnip.0cf2478d.png'> " + element.turnipPrice + " Bells</td><td>" + element.queued + "</td><td>" + element.fee + "</td><td>" + element.category + "</td><td>" + element.description + "</td></tr>";
+                                vHtml += "<tr><td><a href='https://turnip.exchange/island/" + element.turnipCode + "' target='_blank'>" + (element.name == "Devereux" ? "<span class='alert alert-danger'>Devereux</span>" : element.name) + "</a></td><td><img width='10%' src='https://turnip.exchange/assets/images/fruits/" + element.fruit + ".png'></td><td><img width='8%' src='https://turnip.exchange/img/turnip.0cf2478d.png'> " + element.turnipPrice + " Bells</td><td>" + element.queued + "</td><td>" + element.fee + "</td><td>" + element.category + "</td><td>" + element.description + "</td></tr>";
                                 islands++;
                             }
                         });
