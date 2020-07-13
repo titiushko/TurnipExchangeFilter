@@ -30,17 +30,50 @@
 <body>
     <div class="main-content-inner">
         <div class="row">
-            <div class="col-md-10 offset-1">
+            <div class="col-md-8 offset-1">
                 <h4 class="header-title">
                     Looking for Turnips with prices >=
-                    <input class="form-control" style="width: 8%; display: inline;" id="TurnipPrice" value="590" type="number"> Bells
+                    <input class="form-control" style="width: 8%; display: inline;" id="TurnipPrice" value="590" type="number" step="10"> Bells
                 </h4>
                 <h6>
                     Automatic refresh every
                     <input class="form-control" style="width: 8%; display: inline;" id="Seconds" value="10" type="number" min="10" max="50" step="10"> seconds
                 </h6>
                 <br />
-                <div class="row"><div class="col-md-2"><button class="btn btn-success" id="Refresh"><img width="10%" src="https://i.ya-webdesign.com/images/animal-crossing-leaf-png-3.png"> Refresh Manual</button></div></div>
+                <div class="row collapse" id="MoreFilters">
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label for="MaxTurnipPrice" class="col-md-4 col-form-label">Max Price</label>
+                            <div class="col-md-8">
+                                <input class="form-control" id="MaxTurnipPrice" value="665" type="number" step="10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group row">
+                            <label for="FruitName" class="col-md-4 col-form-label">Fruit</label>
+                            <div class="col-md-8">
+                                <select class="form-control" id="FruitName">
+                                    <option value="all" selected>All</option>
+                                    <option value="apple">Apple</option>
+                                    <option value="cherry">Cherry</option>
+                                    <option value="orange">Orange</option>
+                                    <option value="peach">Peach</option>
+                                    <option value="pear">Pear</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="btn btn-group">
+                            <button class="btn btn-primary" id="Refresh" type="button" data-toggle="collapse" data-target="#MoreFilters" aria-expanded="false" aria-controls="MoreFilters">More Filters</button>
+                            <button class="btn btn-success" id="Refresh" type="button"><img width="10%" src="https://i.ya-webdesign.com/images/animal-crossing-leaf-png-3.png"> Refresh Manual</button>
+                        </span>
+                    </div>
+                </div>
                 <br />
                 <div class="data-tables">
                     <table id="dataTable" class="text-center">
@@ -87,9 +120,19 @@
                         var vHtml = "";
                         var islands = 0;
                         $.each(pResponse.islands, function (index, element) {
-                            if (element.turnipPrice >= $("#TurnipPrice").val() && element.fee == 0 && element.category == "turnips") {
-                                vHtml += "<tr><td><a href='https://turnip.exchange/island/" + element.turnipCode + "' target='_blank'>" + (element.name == "Devereux" ? "<span class='alert alert-danger'>Devereux</span>" : element.name) + "</a></td><td><img width='10%' src='https://turnip.exchange/assets/images/fruits/" + element.fruit + ".png'></td><td><img width='8%' src='https://turnip.exchange/img/turnip.0cf2478d.png'> " + element.turnipPrice + " Bells</td><td>" + element.queued + "</td><td>" + element.fee + "</td><td>" + element.category + "</td><td>" + element.description + "</td></tr>";
-                                islands++;
+                            if ((element.turnipPrice >= $("#TurnipPrice").val() && element.turnipPrice <= $("#MaxTurnipPrice").val()) && element.fee == 0 && element.category == "turnips") {
+                                var vRow = "<tr><td><a href='https://turnip.exchange/island/" + element.turnipCode + "' target='_blank'>" + (element.name == "Devereux" ? "<span class='alert alert-danger'>Devereux</span>" : element.name) + "</a></td><td><img width='10%' src='https://turnip.exchange/assets/images/fruits/" + element.fruit + ".png'></td><td><img width='8%' src='https://turnip.exchange/img/turnip.0cf2478d.png'> " + element.turnipPrice + " Bells</td><td>" + element.queued + "</td><td>" + element.fee + "</td><td>" + element.category + "</td><td>" + element.description + "</td></tr>";
+                                if ($("#FruitName").val() == "all") {
+                                    vHtml += vRow;
+                                    islands++;
+                                }
+                                else if (element.fruit == $("#FruitName").val()) {
+                                    vHtml += vRow;
+                                    islands++;
+                                }
+                                else {
+                                    vHtml += "";
+                                }
                             }
                         });
                         $("#dataTable").find("tbody").empty();
